@@ -6,6 +6,7 @@ import '@fontsource-variable/manrope';
 import '@fontsource/ibm-plex-mono/400.css';
 import ExternalIcon from '../components/ExternalIcon.astro';
 import ParticleField from '../components/ParticleField.astro';
+import BackgroundMusic from '../components/BackgroundMusic.astro';
 interface Props { title: string; description?: string }
 const {title, description = 'OSZ AI es un proyecto de agentes de inteligencia artificial para escritorio de OneSecureZone. Conoce su enfoque, desarrollo y próximas versiones para Windows, macOS y Linux.'} = Astro.props;
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
@@ -36,6 +37,7 @@ const links = [['/', 'Agentes de IA'], ['/desarrollo', 'Desarrollo']];
       <div class="header-actions"><a class="parent-link" href="https://onesecurezone.com/" target="_blank" rel="noopener noreferrer">Parte de <strong>OneSecureZone <ExternalIcon /></strong></a><a class="button primary nav-download" href="/descargas" aria-current={path === "/descargas" ? "page" : undefined}><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M12 3v12m-4-4 4 4 4-4M5 16v4h14v-4" /></svg>Descargas</a></div>
     </div></header>
     <main id="main"><slot /></main>
+    <BackgroundMusic />
     <button class="motion-toggle glass-surface" data-motion-toggle type="button" aria-label="Pausar animaciones" aria-pressed="false" hidden><svg class="motion-pause" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M8 5v14M16 5v14" /></svg><svg class="motion-play" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m8 4 12 8-12 8V4Z" /></svg><span data-motion-label>Pausar animación</span></button>
     <footer class="site-footer wrap">
       <div><a class="brand" href="/"><img src="/favicon.svg" width="30" height="30" alt="" /><span>OSZ <b>AI</b></span></a><p>Agentes de inteligencia artificial para escritorio.</p></div>

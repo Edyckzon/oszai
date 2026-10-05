@@ -1,0 +1,89 @@
+<div class="music-player glass-surface" data-music-player hidden role="group" aria-label="Música de fondo">
+  <audio data-background-music src="/media/background-music.mp3" preload="none" loop></audio>
+  <button type="button" class="music-button" data-music-toggle aria-label="Reproducir música" aria-pressed="false">
+    <svg class="music-play" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="m8 4 12 8-12 8V4Z" /></svg>
+    <svg class="music-pause" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M8 5v14M16 5v14" /></svg>
+    <span>Música</span>
+  </button>
+  <label class="music-volume"><span class="sr-only">Volumen de la música</span><input data-music-volume type="range" min="0" max="100" step="1" value="25" aria-valuetext="25 %" /></label>
+  <output data-music-level aria-hidden="true">25%</output>
+  <span class="sr-only" data-music-status role="status"></span>
+</div>
+<style>
+  .music-player{position:fixed;z-index:80;left:22px;bottom:18px;display:flex;align-items:center;gap:8px;padding:0 12px 0 3px;border-radius:999px;background:var(--glass-strong);color:var(--muted);font-size:11px;max-width:calc(100vw - 24px)}
+  .music-player[hidden]{display:none}.music-button{display:flex;align-items:center;gap:7px;min-height:44px;padding:0 10px;color:inherit;border:0;background:none;border-radius:999px;cursor:pointer;font:inherit}.music-button:hover{color:var(--blue)}
+  .music-button:focus-visible{outline:2px solid var(--blue);outline-offset:1px}.music-pause{display:none}[data-playing='true'] .music-pause{display:block}[data-playing='true'] .music-play{display:none}
+  .music-volume{display:flex;align-items:center;min-height:44px}.music-volume input{width:72px;min-height:44px;accent-color:var(--blue);cursor:pointer;margin:0}.music-player output{min-width:29px;font-size:10px;font-variant-numeric:tabular-nums}
+  @media(max-width:600px){.music-player{left:12px;bottom:64px}}
+</style>
+<script>
+  const player = document.querySelector<HTMLElement>('[data-music-player]');
+  if (player) {
+    const audio = player.querySelector<HTMLAudioElement>('audio')!;
+    const button = player.querySelector<HTMLButtonElement>('[data-music-toggle]')!;
+    const slider = player.querySelector<HTMLInputElement>('[data-music-volume]')!;
+    const level = player.querySelector<HTMLOutputElement>('[data-music-level]')!;
+    const status = player.querySelector<HTMLElement>('[data-music-status]')!;
+    let enabled = true;
+    let pending = false;
+    let attempted = false;
+    let resumeAfterHidden = false;
+    let volume = .25;
+    try {
+      enabled = localStorage.getItem('osz-ai-music') !== 'off';
+      const saved = localStorage.getItem('osz-ai-music-volume');
+      if (saved !== null && Number.isFinite(Number(saved))) volume = Math.max(0, Math.min(1, Number(saved)));
+    } catch { /* Playback also works without storage. */ }
+    audio.volume = volume;
+    slider.value = String(Math.round(volume * 100));
+    slider.setAttribute('aria-valuetext', `${slider.value} %`);
+    level.value = `${slider.value}%`;
+    function sync() {
+      const playing = !audio.paused;
+      player!.dataset.playing = String(playing);
+      button.setAttribute('aria-pressed', String(playing));
+      button.setAttribute('aria-label', playing ? 'Pausar música' : 'Reproducir música');
+      button.title = playing ? 'Pausar música de fondo' : 'Reproducir música de fondo';
+    }
+    async function play() {
+      attempted = true;
+      pending = true;
+      try {
+        await audio.play();
+        status.textContent = '';
+      } catch (error) {
+        if ((error as DOMException).name === 'NotAllowedError') {
+          status.textContent = 'Pulsa Música para activar el sonido.';
+          button.title = 'Pulsa para activar el sonido';
+        } else if ((error as DOMException).name !== 'AbortError') {
+          status.textContent = 'No se pudo cargar la música. Pulsa para reintentar.';
+        }
+      } finally { pending = false; sync(); }
+    }
+    button.addEventListener('click', () => {
+      if (pending || !audio.paused) {
+        enabled = false; resumeAfterHidden = false; audio.pause();
+      } else { enabled = true; void play(); }
+      try { localStorage.setItem('osz-ai-music', enabled ? 'on' : 'off'); } catch { /* Optional preference. */ }
+      sync();
+    });
+    slider.addEventListener('input', () => {
+      audio.volume = Number(slider.value) / 100;
+      level.value = `${slider.value}%`;
+      slider.setAttribute('aria-valuetext', `${slider.value} %`);
+      try { localStorage.setItem('osz-ai-music-volume', String(audio.volume)); } catch { /* Optional preference. */ }
+    });
+    audio.addEventListener('play', sync);
+    audio.addEventListener('pause', sync);
+    audio.addEventListener('error', () => { status.textContent = 'No se pudo cargar la música. Pulsa para reintentar.'; sync(); });
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) { resumeAfterHidden = !audio.paused && enabled; audio.pause(); }
+      else if (enabled && (resumeAfterHidden || !attempted)) { resumeAfterHidden = false; void play(); }
+    });
+    window.addEventListener('pagehide', () => audio.pause());
+    window.addEventListener('pageshow', event => { if (event.persisted && enabled && !document.hidden) void play(); });
+    player.hidden = false;
+    sync();
+    if (enabled && !document.hidden) void play();
+  }
+</script>

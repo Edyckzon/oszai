@@ -60,6 +60,12 @@ El diagrama no representa funciones confirmadas del ejecutable. Es la primera ex
 
 Pendientes de producto: función principal, capturas reales, instaladores, arquitecturas, requisitos, política de datos y condiciones comerciales.
 
+## Música de fondo
+
+`BackgroundMusic.astro` incluye reproducción/pausa y volumen, con preferencias locales (`osz-ai-music` y `osz-ai-music-volume`). Intenta reproducir al entrar; si el navegador bloquea el audio automático, espera a que el visitante pulse Música. Respeta la elección de apagarla y pausa mientras la pestaña está oculta.
+
+`public/media/background-music.mp3` es una copia optimizada (96 kbps, unos 749 KiB) de la canción proporcionada en `design-inbox/songs`, recortada desde 1:28 hasta el final. El original permanece intacto. Tiene volumen reducido 8 dB y fundidos suaves; el control comienza al 25 %. El bucle vuelve al comienzo del fragmento (1:28 del original), también al abrir otra página.
+
 ## Videos integrados
 
 El original `design-inbox/videos/animacion veo.mp4` se conserva intacto (4K, 8 segundos, aproximadamente 5.9 MB). Las copias públicas en `public/media/` eliminan audio y usan un pequeño fundido entre el final y el inicio para suavizar el bucle:
