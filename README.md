@@ -62,7 +62,7 @@ Pendientes de producto: función principal, capturas reales, instaladores, arqui
 
 ## Música de fondo
 
-`BackgroundMusic.astro` incluye reproducción/pausa y volumen, con preferencias locales (`osz-ai-music` y `osz-ai-music-volume`). Intenta reproducir al entrar; si el navegador bloquea el audio automático, espera a que el visitante pulse Música. Respeta la elección de apagarla y pausa mientras la pestaña está oculta.
+`BackgroundMusic.astro` incluye reproducción/pausa y volumen, con preferencias locales (`osz-ai-music` y `osz-ai-music-volume`). Intenta reproducir al entrar; si el navegador bloquea el audio automático, reintenta con el primer clic, toque o pulsación de tecla en la página. El botón Música también permite activarla. Respeta la elección de apagarla y pausa mientras la pestaña está oculta. No se puede garantizar audio al cargar sin interacción en todos los navegadores.
 
 `public/media/background-music.mp3` es una copia optimizada (96 kbps, unos 749 KiB) de la canción proporcionada en `design-inbox/songs`, recortada desde 1:28 hasta el final. El original permanece intacto. Tiene volumen reducido 8 dB y fundidos suaves; el control comienza al 25 %. El bucle vuelve al comienzo del fragmento (1:28 del original), también al abrir otra página.
 

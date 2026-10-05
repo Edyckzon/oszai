@@ -27,6 +27,7 @@
     let enabled = true;
     let pending = false;
     let attempted = false;
+    let awaitingGesture = false;
     let resumeAfterHidden = false;
     let volume = .25;
     try {
@@ -46,14 +47,17 @@
       button.title = playing ? 'Pausar música de fondo' : 'Reproducir música de fondo';
     }
     async function play() {
+      if (pending) return;
       attempted = true;
       pending = true;
       try {
         await audio.play();
+        awaitingGesture = false;
         status.textContent = '';
       } catch (error) {
         if ((error as DOMException).name === 'NotAllowedError') {
-          status.textContent = 'Pulsa Música para activar el sonido.';
+          awaitingGesture = true;
+          status.textContent = 'La música comenzará al interactuar con la página. También puedes pulsar Música.';
           button.title = 'Pulsa para activar el sonido';
         } else if ((error as DOMException).name !== 'AbortError') {
           status.textContent = 'No se pudo cargar la música. Pulsa para reintentar.';
@@ -62,7 +66,7 @@
     }
     button.addEventListener('click', () => {
       if (pending || !audio.paused) {
-        enabled = false; resumeAfterHidden = false; audio.pause();
+        enabled = false; awaitingGesture = false; resumeAfterHidden = false; audio.pause();
       } else { enabled = true; void play(); }
       try { localStorage.setItem('osz-ai-music', enabled ? 'on' : 'off'); } catch { /* Optional preference. */ }
       sync();
@@ -74,6 +78,16 @@
       try { localStorage.setItem('osz-ai-music-volume', String(audio.volume)); } catch { /* Optional preference. */ }
     });
     audio.addEventListener('play', sync);
+    // Retry inside a real user gesture when audible autoplay was blocked.
+    // Ignore the player itself so its pause and volume controls keep their intent.
+    function startAfterInteraction(event: Event) {
+      if (!event.isTrusted || !enabled || !awaitingGesture || document.hidden) return;
+      if (event.target instanceof Node && player!.contains(event.target)) return;
+      if (event instanceof KeyboardEvent && (event.ctrlKey || event.metaKey || event.altKey || event.key === 'Escape')) return;
+      void play();
+    }
+    document.addEventListener('click', startAfterInteraction);
+    document.addEventListener('keydown', startAfterInteraction);
     audio.addEventListener('pause', sync);
     audio.addEventListener('error', () => { status.textContent = 'No se pudo cargar la música. Pulsa para reintentar.'; sync(); });
     document.addEventListener('visibilitychange', () => {
