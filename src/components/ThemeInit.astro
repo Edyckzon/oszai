@@ -1,0 +1,46 @@
+<!-- Apply the stored choice before the page paints. Without a choice, follow the system. -->
+<script is:inline>
+  (() => {
+    const root = document.documentElement;
+    const key = 'osz-ai-theme';
+    const system = window.matchMedia('(prefers-color-scheme: light)');
+    const isTheme = value => value === 'light' || value === 'dark';
+    let choice = null;
+    try {
+      const saved = localStorage.getItem(key);
+      if (isTheme(saved)) choice = saved;
+    } catch { /* Theme switching also works when storage is unavailable. */ }
+
+    function syncControl() {
+      const light = root.dataset.theme === 'light';
+      document.querySelectorAll('[data-theme-toggle]').forEach(button => {
+        const label = light ? 'Activar modo oscuro' : 'Activar modo claro';
+        button.setAttribute('aria-label', label);
+        button.setAttribute('title', label);
+      });
+    }
+
+    function applyTheme() {
+      const theme = choice || (system.matches ? 'light' : 'dark');
+      root.dataset.theme = theme;
+      document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'light' ? '#f7f8fc' : '#090c13');
+      syncControl();
+    }
+
+    applyTheme();
+    root.classList.add('has-theme-js');
+    document.addEventListener('DOMContentLoaded', syncControl, { once: true });
+    document.addEventListener('click', event => {
+      if (!(event.target instanceof Element) || !event.target.closest('[data-theme-toggle]')) return;
+      choice = root.dataset.theme === 'light' ? 'dark' : 'light';
+      try { localStorage.setItem(key, choice); } catch { /* Keep the choice for this page. */ }
+      applyTheme();
+    });
+    system.addEventListener('change', () => { if (!choice) applyTheme(); });
+    window.addEventListener('storage', event => {
+      if (event.key !== key && event.key !== null) return;
+      choice = isTheme(event.newValue) ? event.newValue : null;
+      applyTheme();
+    });
+  })();
+</script>

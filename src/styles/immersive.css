@@ -1,0 +1,167 @@
+@layer base {
+  :root {
+    --glass: #14203575;
+    --glass-strong: #131e30b8;
+    --glass-edge: #c1d5ff2c;
+    --glass-shadow: #0000001c;
+    --ambient: #3b66c314;
+  }
+  :root[data-theme='light'] {
+    --glass: #ffffff8c;
+    --glass-strong: #ffffffbb;
+    --glass-edge: #7894bd47;
+    --glass-shadow: #2548780a;
+    --ambient: #719af517;
+  }
+  body { isolation: isolate; overflow-x: clip; }
+  main, .site-footer { position: relative; z-index: 1; }
+  .glass-surface { background: var(--glass); border: 1px solid var(--glass-edge); box-shadow: inset 0 1px 0 var(--gloss), 0 18px 55px var(--glass-shadow); -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px); }
+  .button, .text-link { min-height: 46px; border-radius: 12px; }
+  .outline, .text-link { background: var(--glass); border-color: var(--glass-edge); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
+  .primary { background: linear-gradient(135deg, #eff5ff, #dae4fc); color: #101b32; box-shadow: inset 0 1px 0 #fff, 0 5px 24px #528eff24; }
+  [data-theme='light'] .primary { background: linear-gradient(135deg, #2b426a, #19243c); color: #fff; box-shadow: inset 0 1px 0 #7793bb44, 0 5px 20px #345b921a; }
+  .icon-button { display: inline-flex; width: 44px; height: 44px; }
+  button:disabled { opacity: .35; cursor: default; }
+}
+@layer components {
+  .particle-field { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; background: radial-gradient(ellipse at 84% 37%, var(--ambient), transparent 57%), radial-gradient(ellipse at 30% 78%, var(--purple-wash), transparent 45%); }
+  .particle-field canvas { display: block; width: 100%; height: 100%; transition: opacity .4s; }
+  .particle-field[data-renderer='fallback'] canvas { opacity: 0; }
+  .particle-field::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, var(--bg), transparent 72%); opacity: .34; }
+  .site-header { background: var(--header-glass); border-bottom-color: var(--glass-edge); }
+  .site-header .nav-download { min-height: 40px; border-radius: 11px; }
+  .site-header nav a { border: 1px solid transparent; }
+  .site-header nav a[aria-current='page'] { border-color: var(--line); background: var(--glass); box-shadow: inset 0 1px 0 var(--gloss); }
+  .motion-toggle { position: fixed; z-index: 80; right: 22px; bottom: 18px; min-height: 40px; padding: 9px 13px; border-radius: 999px; display: inline-flex; align-items: center; gap: 8px; color: var(--muted); font-size: 11px; background: var(--glass-strong); }
+  .motion-toggle:hover { color: var(--ink); border-color: var(--blue); }
+  .motion-toggle[hidden] { display: none; }
+  .motion-play { display: none; }
+  [data-motion='paused'] .motion-pause { display: none; }
+  [data-motion='paused'] .motion-play { display: block; }
+  .hero-surface { position: relative; overflow: clip; background: none; }
+  .hero { display: block; padding-top: clamp(70px, 12vh, 140px); padding-bottom: 105px; min-height: max(760px, calc(100svh - var(--nav-height))); }
+  .hero-copy { position: relative; z-index: 3; width: 50%; }
+  .hero .eyebrow { gap: 10px; font-size: 11px; letter-spacing: .08em; color: var(--ink); }
+  .glow-mark { width: 32px; height: 32px; object-fit: contain; flex-shrink: 0; }
+  .hero-status { font-size: 9px; letter-spacing: .06em; color: var(--yellow); border: 1px solid var(--glass-edge); background: var(--yellow-wash); padding: 4px 8px; border-radius: 999px; }
+  .hero h1 { font-size: clamp(3.5rem, 6.35vw, 6.7rem); letter-spacing: -.06em; line-height: 1.02; margin: 26px 0 24px; }
+  .hero h1 em { color: var(--blue); }
+  .hero-description { max-width: 435px; font-size: .9375rem; line-height: 1.85; text-wrap: pretty; }
+  .hero-actions { margin-top: 26px; gap: 10px; }
+  .platform-line { margin-top: 22px; font-size: 10px; }
+  .hero-bottom { position: absolute; left: 0; bottom: 12px; width: 100%; z-index: 3; margin: 0; align-items: center; padding-block: 19px; border-color: var(--glass-edge); font-size: 9px; letter-spacing: .12em; }
+  .hero-scroll { display: flex; align-items: center; gap: 12px; }
+  .orb-composition { position: absolute; z-index: 2; width: 65%; aspect-ratio: 1; top: 47%; right: -11%; transform: translateY(-50%); pointer-events: none; }
+  .veo-orb { position: absolute; height: 100%; width: 177.78%; max-width: none; left: -38.89%; object-fit: fill; mix-blend-mode: screen; mask-image: radial-gradient(ellipse at center, #000 30%, #000c 43%, transparent 62%); }
+  [data-theme='light'] .veo-orb { mix-blend-mode: multiply; filter: invert(1) hue-rotate(180deg) saturate(1.15); }
+  .orb-halo { position: absolute; inset: 15%; border-radius: 50%; background: radial-gradient(circle, #437ff51c, #7567f514 45%, transparent 69%); }
+  .orb-orbit { position: absolute; inset: 17% 12%; border: 1px solid var(--orbit-line); border-radius: 50%; transform: rotate(-28deg) scaleY(.73); }
+  .orbit-inner { inset: 9% 23%; transform: rotate(33deg); border-style: dashed; opacity: .55; }
+  .orb-node { position: absolute; padding: 9px 13px; border: 1px solid var(--glass-edge); background: var(--glass); color: var(--control-ink); border-radius: 10px; font: 9px var(--mono); letter-spacing: .12em; -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
+  .node-context { left: 12%; top: 25%; }
+  .node-tools { right: 13%; top: 39%; }
+  .node-agent { bottom: 18%; left: 31%; }
+  .orb-signature { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); color: #ecf4ffe6; font-size: clamp(36px, 5vw, 72px); font-weight: 600; letter-spacing: -.07em; text-shadow: 0 2px 30px #213d7766; }
+  .orb-signature span { font-weight: 300; }
+  [data-theme='light'] .orb-signature { color: #172848bd; text-shadow: none; }
+  .manifesto { background: linear-gradient(120deg, var(--glass-strong), var(--glass)); border-block: 1px solid var(--glass-edge); margin-top: 0; padding-block: 72px; -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); }
+  .manifesto h2 { font-size: clamp(2rem, 3.6vw, 3.5rem); }
+  .manifesto .eyebrow { color: var(--green); }
+  .manifesto p { max-width: 700px; }
+  .agent-journey { padding-block: 100px 30px; overflow: clip; --journey-progress: 0; }
+  .journey-heading { display: grid; grid-template-columns: 1fr 1fr; align-items: end; gap: 80px; margin-bottom: 38px; }
+  .journey-heading h2 { margin-top: 23px; }
+  .journey-heading p { max-width: 435px; font-size: .9375rem; line-height: 1.8; }
+  .journey-controls { margin-top: 25px; display: flex; align-items: center; gap: 9px; }
+  .journey-controls .icon-button { background: var(--glass); border-color: var(--glass-edge); border-radius: 50%; }
+  .journey-count { font: 13px var(--mono); color: var(--ink); margin-right: 14px; min-width: 64px; }
+  .journey-count span { color: var(--subtle); }
+  .journey-track { display: flex; gap: 22px; overflow-x: auto; overflow-y: hidden; padding: 10px max(56px, calc((100vw - 1280px) / 2)) 25px; scroll-snap-type: x mandatory; scroll-padding-inline: max(56px, calc((100vw - 1280px) / 2)); scrollbar-width: thin; scrollbar-color: var(--glass-edge) transparent; overscroll-behavior-x: contain; }
+  .journey-track:focus-visible { outline: 2px solid var(--accent); outline-offset: -3px; }
+  .journey-card { --step-color: var(--blue); --step-wash: var(--blue-wash); flex: 0 0 clamp(300px, 33vw, 460px); padding: 28px 30px; min-height: 385px; border-radius: 22px; scroll-snap-align: start; position: relative; overflow: hidden; }
+  .journey-card::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 85% 0, var(--step-wash), transparent 55%); pointer-events: none; }
+  .journey-card:nth-child(2) { --step-color: var(--purple); --step-wash: var(--purple-wash); }
+  .journey-card:nth-child(3) { --step-color: var(--green); --step-wash: var(--green-wash); }
+  .journey-card:nth-child(4) { --step-color: var(--yellow); --step-wash: var(--yellow-wash); }
+  .journey-card-top { display: flex; justify-content: space-between; align-items: center; font: 11px var(--mono); color: var(--step-color); }
+  .journey-number { color: var(--subtle); }
+  .journey-glyph { position: relative; width: 64px; height: 64px; margin-block: 27px; display: grid; place-items: center; color: var(--step-color); }
+  .journey-glyph span { position: absolute; inset: 0; border: 1px solid var(--glass-edge); border-radius: 20px; transform: rotate(-10deg); background: var(--step-wash); z-index: -1; }
+  .journey-card h3 { font-size: 1.65rem; margin-bottom: 15px; }
+  .journey-card p { font-size: .9375rem; line-height: 1.8; }
+  .journey-example { font-size: .75rem; color: var(--subtle); border-top: 1px solid var(--line); margin-top: 25px; padding-top: 18px; }
+  .journey-bottom { display: flex; align-items: center; justify-content: space-between; gap: 30px; margin-top: 22px; }
+  .journey-bottom>span { font: 9px var(--mono); letter-spacing: .12em; color: var(--subtle); }
+  .journey-bottom>span span { font-size: 16px; margin-left: 8px; }
+  .journey-progress { width: min(380px, 40%); height: 2px; background: var(--line); overflow: hidden; }
+  .journey-progress span { display: block; height: 100%; width: 25%; background: var(--blue); transform: translateX(calc(var(--journey-progress) * 300%)); }
+  .architecture-section { display: grid; grid-template-columns: .85fr 1.15fr; align-items: center; gap: 80px; padding-block: 90px 110px; }
+  .architecture-copy h2 { margin: 22px 0 28px; }
+  .architecture-copy>p { max-width: 380px; font-size: .9375rem; line-height: 1.85; }
+  .architecture-copy .small-note { font-size: .8125rem; }
+  .architecture-glass { border-radius: 26px; padding: 27px; }
+  .architecture-glass .core-experience { margin: 0; }
+  .architecture-glass .core-stage { height: 380px; }
+  .architecture-glass .core-layer { width: 255px; height: 205px; }
+  .architecture-glass .core-caption { display: none; }
+  .architecture-glass .core-controls { flex-wrap: wrap; }
+  .download-callout { background: var(--glass); border-color: var(--glass-edge); border-radius: 24px; -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px); box-shadow: inset 0 1px 0 var(--gloss); }
+  .download-card { background: var(--glass); border-color: var(--glass-edge); border-radius: 22px; -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px); }
+  .faq-list details, .faq-list details:last-child { padding-inline: 22px; border: 1px solid var(--glass-edge); border-radius: 15px; margin-bottom: 12px; background: var(--glass); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); }
+  .faq-list summary { padding-block: 21px; }
+  .faq-list details[open] { background: var(--glass-strong); }
+  .development-log { background: var(--glass); border: 1px solid var(--glass-edge); border-radius: 22px; padding: 32px; -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px); }
+  .site-footer { padding-bottom: 45px; }
+  .contact-email { overflow-wrap: anywhere; }
+  @media(min-width:1600px) { .hero { padding-top: 130px; } .orb-composition { right: -13%; width: 70%; } }
+  @media(max-width:1100px) { .architecture-section { gap: 35px; } .architecture-glass { padding: 21px; } .architecture-glass .core-layer { width: 220px; height: 175px; } .journey-track { padding-inline: 32px; scroll-padding-inline: 32px; } .hero h1 { font-size: 6.4vw; } .hero-description { max-width: 370px; } }
+  @media(max-width:800px) {
+    .hero { min-height: auto; padding-top: 50px; padding-bottom: 92px; }
+    .hero-copy { width: 100%; max-width: 550px; }
+    .hero h1 { font-size: clamp(3.4rem, 10vw, 5.3rem); }
+    .hero h1 em br { display: none; }
+    .hero-description { max-width: 475px; }
+    .orb-composition { position: relative; top: auto; right: auto; transform: none; width: min(105%, 570px); margin: -5px auto -18px; left: -2.5%; }
+    .orb-signature { font-size: 60px; }
+    .hero-bottom { bottom: 0; }
+    .hero-bottom span:last-child { display: block; font-size: 8px; max-width: 140px; text-align: right; }
+    .journey-heading { gap: 30px; }
+    .journey-heading h2 { font-size: 2.8rem; }
+    .journey-card { flex-basis: 330px; }
+    .agent-journey { padding-top: 65px; }
+    .architecture-section { grid-template-columns: 1fr; gap: 30px; padding-block: 55px 70px; }
+    .architecture-glass { max-width: 600px; width: 100%; justify-self: center; padding: 27px; }
+    .architecture-glass .core-layer { width: 265px; height: 210px; }
+    .architecture-copy>p { max-width: 500px; }
+  }
+  @media(max-width:480px) {
+    .site-header .icon-button { width: 40px; height: 40px; }
+    .site-header .nav-download { padding-inline: 10px; min-height: 40px; }
+    .hero h1 { font-size: clamp(2.8rem, 11.9vw, 4rem); }
+    .hero .eyebrow { font-size: 10px; gap: 8px; }
+    .hero-status { font-size: 8px; }
+    .hero-description { font-size: .9rem; }
+    .orb-composition { width: 120%; left: -10%; margin-top: 10px; }
+    .orb-signature { font-size: 43px; }
+    .orb-node { font-size: 7px; padding: 7px 9px; }
+    .journey-heading { grid-template-columns: 1fr; gap: 22px; }
+    .journey-heading h2 { font-size: 2.6rem; }
+    .journey-controls { margin-top: 18px; }
+    .journey-track { gap: 16px; padding-inline: 20px; scroll-padding-inline: 20px; }
+    .journey-card { flex-basis: calc(100vw - 65px); padding: 24px; min-height: 370px; border-radius: 20px; }
+    .journey-card h3 { font-size: 1.5rem; }
+    .journey-card p { font-size: .875rem; }
+    .journey-glyph { margin-block: 23px; }
+    .journey-bottom>span { font-size: 8px; }
+    .architecture-glass { padding: 18px; }
+    .architecture-glass .core-stage { height: 320px; }
+    .architecture-glass .core-layer { width: 210px; height: 165px; }
+    .architecture-glass .core-topline { flex-wrap: wrap; gap: 5px; }
+    .architecture-glass .core-coordinate { display: none; }
+    .faq-list details, .faq-list details:last-child { padding-inline: 16px; }
+    .motion-toggle { right: 12px; bottom: 12px; min-height: 44px; font-size: 10px; }
+  }
+  @media(max-width:360px) { .architecture-glass .core-layer { width: 175px; height: 140px; } .hero-actions .button { font-size: .75rem; padding-inline: 12px; } .core-controls>span { font-size: 9px; } }
+  @media(prefers-reduced-motion:reduce) { .particle-field canvas { transition: none; } }
+  @supports not (backdrop-filter: blur(1px)) { .glass-surface, .manifesto, .download-card, .download-callout, .faq-list details, .development-log { background: var(--panel); } }
+}

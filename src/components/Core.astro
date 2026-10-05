@@ -1,0 +1,45 @@
+---
+const layers = [
+  {name: 'AGENTE', index: '03', class: 'top', detail: 'Objetivo y pasos'},
+  {name: 'HERRAMIENTAS', index: '02', class: 'middle', detail: 'Conexiones y acciones'},
+  {name: 'CONTEXTO', index: '01', class: 'bottom', detail: 'Instrucciones y datos'},
+];
+---
+<div class="core-experience" data-core>
+  <div class="core-topline"><span>ESTRUCTURA DE UN AGENTE</span><span class="core-coordinate">VISTA CONCEPTUAL</span></div>
+  <div class="core-stage" role="img" aria-label="Diagrama conceptual de un agente de IA: contexto, herramientas y agente">
+    <div class="core-orbit orbit-one"></div><div class="core-orbit orbit-two"></div>
+    <div class="core-axis"></div>
+    {layers.map(layer => <div class:list={['core-layer', layer.class]} data-layer={layer.class}>
+      <span class="layer-number">{layer.index}</span><span class="layer-name">{layer.name}</span>
+      <div class="layer-circuit"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <span class="layer-center">{layer.class === 'middle' ? 'AI' : 'OSZ'}</span>
+      <span class="layer-detail">{layer.detail}</span>
+    </div>)}
+    <span class="core-caption caption-top">03 / AGENTE</span><span class="core-caption caption-bottom">01 / CONTEXTO</span>
+  </div>
+  <div class="core-controls"><span>Contexto → herramientas → agente</span><button class="core-toggle" type="button" aria-pressed="false"><span class="core-toggle-label">Separar capas</span><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14" /><path class="toggle-vertical" d="M12 5v14" /></svg></button></div>
+</div>
+<script>
+  import gsap from 'gsap';
+  function initializeCore() {
+    const root = document.querySelector<HTMLElement>('[data-core]');
+    if (!root || root.dataset.ready) return;
+    root.dataset.ready = 'true';
+    const button = root.querySelector<HTMLButtonElement>('.core-toggle')!;
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let expanded = false;
+    button.addEventListener('click', () => {
+      expanded = !expanded;
+      button.setAttribute('aria-pressed', String(expanded));
+      button.querySelector('.core-toggle-label')!.textContent = expanded ? 'Reunir capas' : 'Separar capas';
+      const small = window.matchMedia('(max-width: 600px)').matches;
+      gsap.to(root.querySelector('[data-layer="top"]'), {y: expanded ? (small ? -24 : -36) : 0, x: expanded ? 12 : 0, duration: reduced.matches ? 0 : .9, ease: 'power3.inOut', overwrite: true});
+      gsap.to(root.querySelector('[data-layer="bottom"]'), {y: expanded ? (small ? 24 : 36) : 0, x: expanded ? -12 : 0, duration: reduced.matches ? 0 : .9, ease: 'power3.inOut', overwrite: true});
+      root.classList.toggle('is-expanded', expanded);
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initializeCore, { once: true });
+  else initializeCore();
+  document.addEventListener('astro:page-load', initializeCore);
+</script>

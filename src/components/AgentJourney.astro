@@ -1,0 +1,19 @@
+---
+const steps = [
+  { number: '01', label: 'Objetivo', title: 'Define la tarea.', text: 'El usuario indica qué necesita y qué condiciones debe respetar el resultado.', example: 'Organizar información o preparar un informe.', icon: 'M12 3v4m0 10v4M3 12h4m10 0h4M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z' },
+  { number: '02', label: 'Contexto', title: 'Conecta la información.', text: 'Las instrucciones, documentos y datos disponibles ayudan al agente a entender la tarea.', example: 'El acceso depende de las conexiones y permisos.', icon: 'M5 3h10l4 4v14H5V3Zm9 0v5h5M9 12h6m-6 4h6' },
+  { number: '03', label: 'Herramientas', title: 'Ejecuta los pasos.', text: 'El agente puede consultar datos o realizar acciones mediante las herramientas habilitadas.', example: 'Su alcance depende de la aplicación y sus integraciones.', icon: 'm8 7-5 5 5 5m8-10 5 5-5 5m-3-13-2 20' },
+  { number: '04', label: 'Revisión', title: 'Comprueba el resultado.', text: 'El usuario debe poder revisar lo que se hizo y corregir errores o ajustar la tarea.', example: 'Los controles y aprobaciones dependen de cada acción.', icon: 'M20 7 9 18l-5-5M20 13v7H4V4h11' },
+];
+---
+<section class="agent-journey" aria-labelledby="journey-title" data-journey>
+  <div class="journey-heading wrap"><div><span class="eyebrow">CÓMO FUNCIONAN LOS AGENTES</span><h2 id="journey-title">Una tarea.<br /><em>Varios pasos.</em></h2></div><div><p>Explora los conceptos detrás de un agente de IA. El alcance de OSZ AI se confirmará con sus primeras demostraciones.</p><div class="journey-controls"><span class="journey-count" aria-live="polite" aria-atomic="true">01 <span>/ 04</span></span><button class="icon-button" type="button" data-journey-prev aria-label="Paso anterior" aria-controls="journey-track" disabled><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="m14 5-7 7 7 7" /></svg></button><button class="icon-button" type="button" data-journey-next aria-label="Paso siguiente" aria-controls="journey-track"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="m10 5 7 7-7 7" /></svg></button></div></div></div>
+  <div class="journey-track" id="journey-track" tabindex="0" role="region" aria-label="Pasos de un agente, desplaza horizontalmente">
+    {steps.map(step => <article class="journey-card glass-surface" aria-label={`${step.number}. ${step.label}`}>
+      <div class="journey-card-top"><span>{step.label}</span><span class="journey-number">{step.number}</span></div>
+      <div class="journey-glyph" aria-hidden="true"><svg width="45" height="45" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d={step.icon} /></svg><span></span></div>
+      <h3>{step.title}</h3><p>{step.text}</p><div class="journey-example">{step.example}</div>
+    </article>)}
+  </div>
+  <div class="journey-bottom wrap"><span>DESLIZA PARA EXPLORAR <span aria-hidden="true">↔</span></span><div class="journey-progress" aria-hidden="true"><span></span></div></div>
+</section>

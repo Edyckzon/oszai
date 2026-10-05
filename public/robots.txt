@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://ai.onesecurezone.com/sitemap.xml

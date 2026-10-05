@@ -1,0 +1,47 @@
+---
+import '../styles/global.css';
+import '../styles/appearance.css';
+import '../styles/immersive.css';
+import '@fontsource-variable/manrope';
+import '@fontsource/ibm-plex-mono/400.css';
+import ExternalIcon from '../components/ExternalIcon.astro';
+import ParticleField from '../components/ParticleField.astro';
+interface Props { title: string; description?: string }
+const {title, description = 'OSZ AI es un proyecto de agentes de inteligencia artificial para escritorio de OneSecureZone. Conoce su enfoque, desarrollo y próximas versiones para Windows, macOS y Linux.'} = Astro.props;
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const canonical = new URL(path, Astro.site);
+const links = [['/', 'Agentes de IA'], ['/desarrollo', 'Desarrollo']];
+---
+<!doctype html>
+<html lang="es" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#080b12" />
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <ParticleField />
+    <a class="skip-link" href="#main">Saltar al contenido</a>
+    <header class="site-header"><div class="nav-shell">
+      <a class="brand" href="/" aria-label="OSZ AI, inicio"><img src="/favicon.svg" width="35" height="35" alt="" /><span>OSZ <b>AI</b></span></a>
+      <nav aria-label="Navegación principal">{links.map(([href,label]) => <a href={href} aria-current={path === href ? 'page' : undefined}>{label}</a>)}</nav>
+      <div class="header-actions"><a class="parent-link" href="https://onesecurezone.com/" target="_blank" rel="noopener noreferrer">Parte de <strong>OneSecureZone <ExternalIcon /></strong></a><a class="button primary nav-download" href="/descargas" aria-current={path === "/descargas" ? "page" : undefined}><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M12 3v12m-4-4 4 4 4-4M5 16v4h14v-4" /></svg>Descargas</a></div>
+    </div></header>
+    <main id="main"><slot /></main>
+    <button class="motion-toggle glass-surface" data-motion-toggle type="button" aria-label="Pausar animaciones" aria-pressed="false" hidden><svg class="motion-pause" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M8 5v14M16 5v14" /></svg><svg class="motion-play" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m8 4 12 8-12 8V4Z" /></svg><span data-motion-label>Pausar animación</span></button>
+    <footer class="site-footer wrap">
+      <div><a class="brand" href="/"><img src="/favicon.svg" width="30" height="30" alt="" /><span>OSZ <b>AI</b></span></a><p>Agentes de inteligencia artificial para escritorio.</p></div>
+      <div class="footer-parent"><span>Un proyecto de</span><a href="https://onesecurezone.com/" target="_blank" rel="noopener noreferrer">OneSecureZone <ExternalIcon /></a><p>Tecnología, infraestructura y desarrollo.</p></div>
+      <div class="footer-links"><a href="/descargas">Descargas</a><a href="/desarrollo">Estado del proyecto</a><a class="contact-email" href="mailto:vincenzo.sp@onesecurezone.com">vincenzo.sp@onesecurezone.com</a></div>
+      <div class="footer-bottom"><span>© {new Date().getFullYear()} OneSecureZone · OSZ AI</span><span>Proyecto en desarrollo</span></div>
+    </footer>
+  </body>
+</html>

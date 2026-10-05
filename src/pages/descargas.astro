@@ -1,0 +1,26 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { releases, validDownload } from '../data/releases';
+---
+<Layout title="Descargas — OSZ AI">
+  <section class="page-heading wrap"><span class="eyebrow">OSZ AI / DESCARGAS</span><h1>OSZ AI para<br /><em>tu sistema operativo.</em></h1><p>Windows, macOS o Linux. Aquí encontrarás las versiones de OSZ AI a medida que se publiquen.</p><span class="release-notice">En desarrollo · Aún no hay instaladores publicados</span></section>
+  <section class="download-grid wrap" aria-label="Versiones por sistema operativo">
+    {releases.map((release, index) => <article class="download-card" data-platform={release.id}>
+      <div class="download-card-top"><span class="row-number">0{index + 1}</span><span class="platform-recommendation" hidden>Tu sistema</span></div>
+      <div class="os-symbol" aria-hidden="true">{release.id === 'windows' ? <svg viewBox="0 0 48 48"><path d="M4 8 22 5v18H4Zm21-4 19-3v22H25ZM4 26h18v18L4 41Zm21 0h19v22l-19-3Z"/></svg> : release.id === 'macos' ? <span class="mac-symbol">mac<span>OS</span></span> : <span class="linux-symbol">&gt;_</span>}</div>
+      <h2>{release.name}</h2><p>{release.description}</p>
+      <div class="package-list">{release.packages.length ? release.packages.map(pkg => {if (!validDownload(pkg.url)) throw new Error('URL de descarga inválida'); return <a class="button primary" href={pkg.url}>Descargar {pkg.label} · {pkg.version}</a>}) : <><span class="availability">Próximamente</span><p class="package-note">Formatos y requisitos por confirmar.</p></>}</div>
+    </article>)}
+  </section>
+  <section class="download-help wrap"><div><span class="eyebrow">SIGUE EL PROYECTO</span><h2>Requisitos<br />e instalación.</h2></div><div><p>Cada lanzamiento indicará los sistemas compatibles, la arquitectura y los pasos de instalación. Todavía no se han confirmado los requisitos mínimos.</p><a class="text-link" href="/desarrollo">Ver estado del desarrollo</a><p class="small-note">¿Tienes una consulta? <a href="mailto:vincenzo.sp@onesecurezone.com">Escríbenos</a>.</p></div></section>
+  <script>
+    const platform = navigator.platform.toLowerCase();
+    const id = platform.includes('win') ? 'windows' : platform.includes('mac') && navigator.maxTouchPoints < 2 ? 'macos' : platform.includes('linux') && !/android/i.test(navigator.userAgent) ? 'linux' : null;
+    if (id) {
+      const card = document.querySelector(`[data-platform="${id}"]`);
+      card?.classList.add('recommended');
+      const badge = card?.querySelector<HTMLElement>('.platform-recommendation');
+      if (badge) badge.hidden = false;
+    }
+  </script>
+</Layout>

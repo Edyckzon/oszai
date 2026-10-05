@@ -1,0 +1,31 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Core from '../components/Core.astro';
+import Orb from '../components/Orb.astro';
+import AgentJourney from '../components/AgentJourney.astro';
+import ExternalIcon from '../components/ExternalIcon.astro';
+---
+<Layout title="OSZ AI — Agentes de IA para escritorio">
+  <div class="hero-surface"><section class="hero wrap">
+    <div class="hero-copy"><div class="eyebrow"><video class="glow-mark" data-motion-video muted loop playsinline preload="none" poster="/media/glow-ia-poster.webp" width="36" height="36" aria-hidden="true"><source data-src="/media/glow-ia.webm" type="video/webm" /></video> OSZ AI <span class="hero-status">EN DESARROLLO</span></div>
+      <h1>Agentes de IA.<br /><em>En tu<br /> escritorio.</em></h1>
+      <p class="hero-description"><strong>OSZ AI</strong> es el proyecto de OneSecureZone enfocado en agentes de inteligencia artificial: software que utiliza contexto y herramientas para realizar tareas a partir de un objetivo.</p>
+      <div class="hero-actions"><a class="button primary" href="/descargas"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M12 3v12m-4-4 4 4 4-4M5 16v4h14v-4" /></svg>Ver descargas</a><a class="button outline" href="/desarrollo">Sobre el proyecto</a></div>
+      <p class="platform-line">WINDOWS <span>/</span> macOS <span>/</span> LINUX</p>
+    </div>
+    <Orb />
+    <div class="hero-bottom"><span class="hero-scroll"><svg width="15" height="19" viewBox="0 0 24 28" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><rect x="5" y="2" width="14" height="21" rx="7" /><path d="M12 7v5m-3 12 3 3 3-3" /></svg>EXPLORA OSZ AI</span><span>MUEVE EL PUNTERO · DESPLÁZATE</span></div>
+  </section></div>
+  <section class="manifesto"><div class="wrap manifesto-grid"><div><span class="eyebrow">QUÉ ES UN AGENTE DE IA</span><span class="section-index" aria-hidden="true">01 / 03</span></div><div><h2>De una instrucción<br /><span>a una secuencia de acciones.</span></h2><p>Un agente puede interpretar un objetivo, dividirlo en pasos y utilizar herramientas para ejecutarlos. El modelo aporta el razonamiento; las herramientas permiten consultar información o actuar sobre otros sistemas.</p><p>En OSZ AI estamos desarrollando este enfoque para escritorio. Las funciones e integraciones disponibles se detallarán con cada versión.</p><a class="text-link" href="/desarrollo">Consultar el estado del proyecto</a></div></div></section>
+  <AgentJourney />
+  <section class="architecture-section wrap"><div class="architecture-copy"><span class="eyebrow">ESTRUCTURA DE UN AGENTE</span><h2>Las piezas<br /><em>de una tarea.</em></h2><p>El contexto aporta la información. Las herramientas permiten actuar. El agente coordina los pasos para alcanzar el objetivo.</p><p class="small-note">Una vista conceptual. Las funciones concretas de OSZ AI se detallarán con cada versión.</p></div><div class="architecture-glass glass-surface"><Core /></div></section>
+  <section class="download-callout wrap"><div><span class="eyebrow">VERSIONES DE ESCRITORIO</span><h2>Windows, macOS<br /><em>y Linux.</em></h2></div><div><p>Los instaladores aún no están publicados. Aquí aparecerán las versiones disponibles, sus requisitos y las instrucciones de instalación.</p><a class="button primary" href="/descargas">Consultar descargas</a></div></section>
+  <section class="faq-section wrap"><div><span class="eyebrow">SOBRE OSZ AI</span><h2>Preguntas frecuentes.</h2></div><div class="faq-list">
+    <details><summary>¿OSZ AI es un chat o un agente?</summary><p>El proyecto está enfocado en agentes de IA para escritorio. Un chat se centra en el intercambio de mensajes; un agente puede además utilizar herramientas para completar tareas. Las capacidades concretas de OSZ AI se publicarán con las demostraciones y versiones.</p></details>
+    <details><summary>¿Funciona sin conexión o con modelos locales?</summary><p>Todavía no se ha publicado esa información. Los modelos compatibles, las conexiones necesarias y el tratamiento de los datos se explicarán antes del lanzamiento.</p></details>
+    <details><summary>¿Qué relación tiene con OneSecureZone?</summary><p>OSZ AI es una rama de OneSecureZone dedicada al desarrollo de agentes de inteligencia artificial. Puedes conocer la marca principal en <a href="https://onesecurezone.com/" target="_blank" rel="noopener noreferrer">onesecurezone.com <ExternalIcon /></a>.</p></details>
+    <details><summary>¿Ya puedo descargar OSZ AI?</summary><p>Todavía no hay instaladores publicados aquí. La página de descargas mostrará cada versión cuando esté lista, junto con su sistema operativo y requisitos.</p></details>
+    <details><summary>¿Qué sistemas están previstos?</summary><p>Windows, macOS y Linux. Las arquitecturas, formatos de instalación y versiones mínimas se confirmarán con cada lanzamiento.</p></details>
+    <details><summary>¿Cómo contacto con el equipo?</summary><p>Escríbenos a <a href="mailto:vincenzo.sp@onesecurezone.com">vincenzo.sp@onesecurezone.com</a> para consultar sobre OSZ AI.</p></details>
+  </div></section>
+</Layout>

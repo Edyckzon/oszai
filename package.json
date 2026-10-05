@@ -1,0 +1,27 @@
+{
+  "name": "osz-ai-web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev --host 127.0.0.1",
+    "build": "astro check && astro build",
+    "preview": "astro preview --host 127.0.0.1",
+    "test": "node --test tests/*.test.mjs"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.10",
+    "@fontsource-variable/manrope": "^5.3.0",
+    "@fontsource/ibm-plex-mono": "^5.3.0",
+    "astro": "^7.3.5",
+    "gsap": "^3.15.0",
+    "three": "^0.186.1",
+    "typescript": "^6.0.3"
+  },
+  "devDependencies": {
+    "@types/three": "^0.186.0"
+  }
+}
